@@ -1,0 +1,29 @@
+Q: Can you think of an analogy between the process of tesselating hexagons and randomly generating a world using rooms and hallways? 
+What is the hexagon and what is the tesselation on the Project 3 side?
+
+A: Generating rooms and hallways also requires an understanding of where previous entries have been added. A hexagon is like a room, with several rows chaining through it. We could think of a room as adjacent hallways (probably not a good idea though).
+
+-----
+Q: If you were to start working on world generation, what kind of method would you think of writing first? 
+Think back to the lab and the process used to eventually get to tesselating hexagons.
+
+A:  I would write up some abstract object classes such as "tileObject" that have methods such as "getUpperLeft" and "getLowerRight". This would work well for both hallways and rooms. (To accomodate for turns in my hallways I might have a separate "segment" class, where halways are basically linked lists of segments.
+
+-----
+Q: What distinguishes a hallway from a room? How are they similar?
+
+A:  A hallway is a single path. It should have less contact nodes than a room. A hallway is skinny and is composed of chained "segments" that become a turning hallway. A room and hallway both have width and height (also calculated using upper left and lower right. They both have total area and live in our tile-based world.
+
+-----
+Q: For tesselating hexagons, one of the hardest parts is figuring out where to place each hexagon/how to easily place hexagons on screen in an algorithmic way. 
+After looking at your own implemention, consider the implementation provided near the end of the lab. 
+How did your implementation differ from the given one? What lessons can be learned from it?
+
+A:  I think that structuring hexagons as a Node-based structure is optimal. That way they have direct access to their neighbors and the programmer does not have to worry about the math related to calculating their respective positions. I think the solution provided by the lab builds on this concept, but does not implement it in a helpful node-based data structure. Hug's solution was much better than my thoughts, however, as I tried to look for easy and cheap ways to scale out endpoints.
+
+-----
+Q: Consider an algorithm for placing rooms and hallways on your map. 
+Ideally, consider many algorithms and think about what makes some easier or harder to implement. Try and bring those ideas together into a single simple algorithm which accomplishes the task. 
+In general, algorithms with as few edge cases as possible are better algorithms.
+
+A:  I will organize my code by classes. I will have all objects that live on my tile-system extend some master-class. I will write helper methods accordingly that help me easily move, erase, and tweak these objects. My map layout will contain rooms and hallways. These will both extends some type of "container" class, which will act as a subworld, with their own tile-sets. They will have dimensionality and have upper, left, right, and lower "neighbors" which each be respective "container" instances. Probably the most helpful method I will write is one that lets me merge two container's sub-containers and tiles. This will enable me to use this container hirearchy. My map creation will be simple because I will slowly expand a tree, possibly using heuristics to make the experience of the player interesting (add an interesting weight to my tree, where trees add more rooms (or some kind of equivalent) based on how much interesting has been added up to this point).
